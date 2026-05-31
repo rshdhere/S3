@@ -1,0 +1,47 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Testing bucket creation using CloudFormation
+Parameters:
+  BucketName:
+    Type: String
+    Default: raashed-cf-s3-bucket
+  DestinationBucketName:
+    Type: String
+    Default: raashed-demo-cf-s3-logging-bucket
+  KmsKeyArn:
+    Type: String
+    Default: arn:aws:kms:ap-south-1:591446361969:key/fbada760-4de5-4d9b-8305-b15208383337
+Resources:
+  LoggingBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref DestinationBucketName
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+  MainBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref BucketName
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: aws:kms
+              KMSMasterKeyID: !Ref KmsKeyArn
+      VersioningConfiguration:
+        Status: Enabled
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      LoggingConfiguration:
+        DestinationBucketName: !Ref LoggingBucket
+Outputs:
+  MainBucketName:
+    Description: Name of the main bucket
+    Value: !Ref MainBucket
+  LoggingBucketName:
+    Description: Name of the logging bucket
+    Value: !Ref LoggingBucket
