@@ -1,3 +1,3 @@
-template-file-path: S3.yaml
+template-file-path: template.yaml
 parameters: {}
 tags: {}
