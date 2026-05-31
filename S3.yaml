@@ -5,6 +5,9 @@ Parameters:
   BucketName:
     Type: String
     Default: raashed-cf-s3-bucket
+  DestinationBucketName:
+    Type: String
+    Default: raashed-demo-cf-s3-logging-bucket
   KmsKeyArn:
     Type: String
     Default: arn:aws:kms:ap-south-1:591446361969:key/fbada760-4de5-4d9b-8305-b15208383337
@@ -26,6 +29,8 @@ Resources:
         BlockPublicPolicy: true
         IgnorePublicAcls: true
         RestrictPublicBuckets: true
+      LoggingConfiguration:
+        DestinationBucketName: !Ref DestinationBucketName
 
 Outputs:
   MainBucketName:
