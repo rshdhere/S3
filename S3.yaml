@@ -1,2 +1,18 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: Testing bucket creation using CloudFormation
+
+Parameters:
+  BucketName:
+    Type: String
+    Default: raashed-cf-s3-bucket
+
+Resources:
+  MainBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref BucketName
+
+Outputs:
+  MainBucketName:
+    Description: name of the main bucket
+    Value: !Ref BucketName
