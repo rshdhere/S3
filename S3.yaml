@@ -5,12 +5,20 @@ Parameters:
   BucketName:
     Type: String
     Default: raashed-cf-s3-bucket
+  KmsKeyArn:
+    Type: String
+    Default: arn:aws:kms:ap-south-1:591446361969:key/fbada760-4de5-4d9b-8305-b15208383337
 
 Resources:
   MainBucket:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: !Ref BucketName
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: aws:kms
+              KMSMasterKeyID: !Ref KmsKeyArn
 
 Outputs:
   MainBucketName:
